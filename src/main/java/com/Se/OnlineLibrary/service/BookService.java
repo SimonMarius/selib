@@ -12,21 +12,27 @@ import com.Se.OnlineLibrary.repository.BookRepository;
 public class BookService {
 	@Autowired
 	private BookRepository bookRepository;
-	public void save(Book book)
+	@Autowired UserService userService;
+	public Book save(Book book)
 	{
-		bookRepository.save(book);
+		return bookRepository.save(book);
 	}
 	
 	public List<Book> getAllBook() {
 		return bookRepository.findAll();
 	}
 	
-	public Book getBookById(int id)
+	public Book getBookById(long id)
 	{
 		return bookRepository.findById(id).get();
 	}
-	public void deleteById(int id)
+	public void deleteById(long id)
 	{
+		Book book = bookRepository.findById(id).get();
+		if (book.getBorrowingUser() != null) {
+			book.setBorrowingUser(null);
+			bookRepository.save(book);
+		}
 		bookRepository.deleteById(id);
 	}
 }

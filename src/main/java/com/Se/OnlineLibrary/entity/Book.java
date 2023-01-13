@@ -1,41 +1,28 @@
 package com.Se.OnlineLibrary.entity;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 
 @Entity
-public class Book {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	
+public class Book extends com.Se.OnlineLibrary.entity.Entity {
 	private String name;
 	private String author;
 	private String price;
 	private String category;
 	private String publisher;
-	public Book(int id, String name, String author, String price, String category, String publisher) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.author = author;
-		this.price = price;
-		this.category = category;
-		this.publisher = publisher;
+
+	@ManyToOne
+	private User borrowingUser;
+
+	public User getBorrowingUser() {
+		return borrowingUser;
 	}
-	public Book() {
-		super();
-		// TODO Auto-generated constructor stub
+
+	public void setBorrowingUser(User borrowingUser) {
+		this.borrowingUser = borrowingUser;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public String getName() {
 		return name;
 	}
